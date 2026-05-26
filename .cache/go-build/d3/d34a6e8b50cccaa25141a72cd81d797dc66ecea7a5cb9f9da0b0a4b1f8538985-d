@@ -1,0 +1,39 @@
+//line /home/soda/GolandProjects/subscribe-manager/internal/handler/subscription/update.go:1:1
+package subscription
+
+import (
+	"net/http"
+
+	"github.com/RSODA/subscribe-manager/internal/dto"
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
+)
+
+func (h *Handler) Update(c *gin.Context) {goCover_97affb49aafb__13[0] = 9 ; goCover_97affb49aafb__13[1] = goCover_97affb49aafb_P ; goCover_97affb49aafb__13[2] = 13 ; goCover_97affb49aafb__13[3] = 1;
+	id := c.Param("id")
+	parsedID, err := uuid.Parse(id)
+	if err != nil {goCover_97affb49aafb__13[8] = 1;
+		badRequest(c, "invalid subscription id")
+		return
+	}
+
+	goCover_97affb49aafb__13[4] = 1;var req dto.UpdateSubscriptionRequest
+	if err := c.ShouldBindJSON(&req); err != nil {goCover_97affb49aafb__13[9] = 1;
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	goCover_97affb49aafb__13[5] = 1;sub, err := req.ToDomain(parsedID)
+	if err != nil {goCover_97affb49aafb__13[10] = 1;
+		badRequest(c, err.Error())
+		return
+	}
+
+	goCover_97affb49aafb__13[6] = 1;res, err := h.service.Update(c.Request.Context(), sub)
+	if err != nil {goCover_97affb49aafb__13[11] = 1;
+		h.writeError(c, err)
+		return
+	}
+
+	goCover_97affb49aafb__13[7] = 1;c.JSON(http.StatusOK, dto.NewSubscriptionResponse(res))
+}

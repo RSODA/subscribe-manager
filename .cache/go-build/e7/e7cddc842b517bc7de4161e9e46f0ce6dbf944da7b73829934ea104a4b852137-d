@@ -1,0 +1,30 @@
+//line /home/soda/GolandProjects/subscribe-manager/internal/handler/subscription/create.go:1:1
+package subscription
+
+import (
+	"net/http"
+
+	"github.com/RSODA/subscribe-manager/internal/dto"
+	"github.com/gin-gonic/gin"
+)
+
+func (h *Handler) Create(c *gin.Context) {goCover_97affb49aafb__0[0] = 7 ; goCover_97affb49aafb__0[1] = goCover_97affb49aafb_P ; goCover_97affb49aafb__0[2] = 0 ; goCover_97affb49aafb__0[3] = 1;
+	var req dto.CreateSubscriptionRequest
+	if err := c.ShouldBindJSON(&req); err != nil {goCover_97affb49aafb__0[7] = 1;
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	goCover_97affb49aafb__0[4] = 1;sub, err := req.ToDomain()
+	if err != nil {goCover_97affb49aafb__0[8] = 1;
+		badRequest(c, err.Error())
+		return
+	}
+
+	goCover_97affb49aafb__0[5] = 1;res, err := h.service.Create(c.Request.Context(), sub)
+	if err != nil {goCover_97affb49aafb__0[9] = 1;
+		h.writeError(c, err)
+		return
+	}
+	goCover_97affb49aafb__0[6] = 1;c.JSON(http.StatusCreated, dto.NewSubscriptionResponse(res))
+}

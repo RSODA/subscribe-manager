@@ -1,0 +1,8 @@
+./caller.go
+./camel_to_snake.go
+./context.go
+./doc.go
+./equal.go
+./mock_controller.go
+./safe_tester.go
+./template.go

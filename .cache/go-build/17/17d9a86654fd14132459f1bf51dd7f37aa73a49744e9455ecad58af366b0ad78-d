@@ -1,0 +1,24 @@
+//line /home/soda/GolandProjects/subscribe-manager/internal/handler/subscription/delete.go:1:1
+package subscription
+
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
+)
+
+func (h *Handler) Delete(c *gin.Context) {goCover_97affb49aafb__1[0] = 5 ; goCover_97affb49aafb__1[1] = goCover_97affb49aafb_P ; goCover_97affb49aafb__1[2] = 1 ; goCover_97affb49aafb__1[3] = 1;
+	id := c.Param("id")
+	if _, err := uuid.Parse(id); err != nil {goCover_97affb49aafb__1[6] = 1;
+		badRequest(c, "invalid subscription id")
+		return
+	}
+
+	goCover_97affb49aafb__1[4] = 1;if err := h.service.Delete(c.Request.Context(), id); err != nil {goCover_97affb49aafb__1[7] = 1;
+		h.writeError(c, err)
+		return
+	}
+
+	goCover_97affb49aafb__1[5] = 1;c.Status(http.StatusNoContent)
+}

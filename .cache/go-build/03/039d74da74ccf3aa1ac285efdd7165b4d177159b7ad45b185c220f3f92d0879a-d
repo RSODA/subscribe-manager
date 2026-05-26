@@ -1,0 +1,26 @@
+//line /home/soda/GolandProjects/subscribe-manager/internal/handler/subscription/get_by_id.go:1:1
+package subscription
+
+import (
+	"net/http"
+
+	"github.com/RSODA/subscribe-manager/internal/dto"
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
+)
+
+func (h *Handler) GetByID(c *gin.Context) {goCover_97affb49aafb__6[0] = 5 ; goCover_97affb49aafb__6[1] = goCover_97affb49aafb_P ; goCover_97affb49aafb__6[2] = 6 ; goCover_97affb49aafb__6[3] = 1;
+	id := c.Param("id")
+	if _, err := uuid.Parse(id); err != nil {goCover_97affb49aafb__6[6] = 1;
+		badRequest(c, "invalid subscription id")
+		return
+	}
+
+	goCover_97affb49aafb__6[4] = 1;res, err := h.service.GetByID(c.Request.Context(), id)
+	if err != nil {goCover_97affb49aafb__6[7] = 1;
+		h.writeError(c, err)
+		return
+	}
+
+	goCover_97affb49aafb__6[5] = 1;c.JSON(http.StatusOK, dto.NewSubscriptionResponse(res))
+}

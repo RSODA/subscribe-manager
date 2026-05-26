@@ -2,7 +2,6 @@ package subscription
 
 import (
 	"context"
-	"strings"
 
 	"github.com/RSODA/subscribe-manager/internal/apperrors"
 	"github.com/RSODA/subscribe-manager/internal/domain"
@@ -10,7 +9,12 @@ import (
 )
 
 func (s *subscriptionService) Create(ctx context.Context, sub *domain.Subscription) (*domain.Subscription, error) {
-	if sub.UserID == uuid.Nil || strings.TrimSpace(sub.ServiceName) == "" || sub.Price <= 0 || sub.StartDate.IsZero() {
+	if sub.UserID == uuid.Nil {
+		s.l.Errorw("invalid user ID", "userID", sub.UserID)
+		return nil, apperrors.ErrInvalidSubscriptionData
+	}
+
+	if len(sub.ServiceName) == 0 || sub.Price <= 0 || sub.StartDate.IsZero() {
 		s.l.Errorw("invalid subscription data", "subscription", sub)
 		return nil, apperrors.ErrInvalidSubscriptionData
 	}

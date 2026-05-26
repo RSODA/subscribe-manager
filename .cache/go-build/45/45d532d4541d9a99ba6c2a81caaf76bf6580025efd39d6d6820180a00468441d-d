@@ -1,0 +1,31 @@
+//line /home/soda/GolandProjects/subscribe-manager/internal/handler/subscription/router.go:1:1
+package subscription
+
+import (
+	"github.com/RSODA/subscribe-manager/internal/service"
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
+)
+
+type Handler struct {
+	service service.SubscriptionService
+	l       *zap.SugaredLogger
+}
+
+func NewHandler(subscriptionService service.SubscriptionService, l *zap.SugaredLogger) *Handler {goCover_97affb49aafb__7[0] = 1 ; goCover_97affb49aafb__7[1] = goCover_97affb49aafb_P ; goCover_97affb49aafb__7[2] = 7 ; goCover_97affb49aafb__7[3] = 1;
+	return &Handler{
+		service: subscriptionService,
+		l:       l,
+	}
+}
+
+func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {goCover_97affb49aafb__8[0] = 1 ; goCover_97affb49aafb__8[1] = goCover_97affb49aafb_P ; goCover_97affb49aafb__8[2] = 8 ; goCover_97affb49aafb__8[3] = 1;
+	subscriptions := r.Group("/subscriptions")
+
+	subscriptions.POST("", h.Create)
+	subscriptions.GET("", h.GetAll)
+	subscriptions.GET("/total", h.TotalCost)
+	subscriptions.GET("/:id", h.GetByID)
+	subscriptions.PATCH("/:id", h.Update)
+	subscriptions.DELETE("/:id", h.Delete)
+}

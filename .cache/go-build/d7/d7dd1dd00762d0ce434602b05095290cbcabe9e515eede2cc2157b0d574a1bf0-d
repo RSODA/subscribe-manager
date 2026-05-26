@@ -1,0 +1,19 @@
+//line /home/soda/GolandProjects/subscribe-manager/internal/handler/subscription/get_all.go:1:1
+package subscription
+
+import (
+	"net/http"
+
+	"github.com/RSODA/subscribe-manager/internal/dto"
+	"github.com/gin-gonic/gin"
+)
+
+func (h *Handler) GetAll(c *gin.Context) {goCover_97affb49aafb__5[0] = 3 ; goCover_97affb49aafb__5[1] = goCover_97affb49aafb_P ; goCover_97affb49aafb__5[2] = 5 ; goCover_97affb49aafb__5[3] = 1;
+	res, err := h.service.GetAll(c.Request.Context())
+	if err != nil {goCover_97affb49aafb__5[5] = 1;
+		h.writeError(c, err)
+		return
+	}
+
+	goCover_97affb49aafb__5[4] = 1;c.JSON(http.StatusOK, dto.NewSubscriptionResponses(res))
+}
