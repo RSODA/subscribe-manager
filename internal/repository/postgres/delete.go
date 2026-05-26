@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/Masterminds/squirrel"
+	"github.com/RSODA/subscribe-manager/internal/apperrors"
 )
 
 func (p *postgres) Delete(ctx context.Context, id string) error {
@@ -17,10 +18,13 @@ func (p *postgres) Delete(ctx context.Context, id string) error {
 		return err
 	}
 
-	_, err = p.db.Exec(ctx, query, args...)
+	tag, err := p.db.Exec(ctx, query, args...)
 	if err != nil {
 		p.l.Errorw("Error executing delete query", "error", err)
 		return err
+	}
+	if tag.RowsAffected() == 0 {
+		return apperrors.ErrSubscriptionNotFound
 	}
 
 	return nil

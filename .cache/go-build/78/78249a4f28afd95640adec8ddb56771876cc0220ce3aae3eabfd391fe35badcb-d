@@ -1,0 +1,7 @@
+./create.go
+./delete.go
+./get_all.go
+./get_by_id.go
+./new.go
+./total_cost.go
+./update.go

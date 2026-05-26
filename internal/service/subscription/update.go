@@ -5,10 +5,11 @@ import (
 
 	"github.com/RSODA/subscribe-manager/internal/apperrors"
 	"github.com/RSODA/subscribe-manager/internal/domain"
+	"github.com/google/uuid"
 )
 
 func (s *subscriptionService) Update(ctx context.Context, sub *domain.Subscription) (*domain.Subscription, error) {
-	if len(sub.ID) == 0 {
+	if sub.ID == uuid.Nil {
 		s.l.Errorw("invalid subscription ID", "id", sub.ID)
 		return nil, apperrors.ErrInvalidSubscriptionData
 	}

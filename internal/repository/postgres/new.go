@@ -8,7 +8,7 @@ import (
 
 type postgres struct {
 	l  *zap.SugaredLogger
-	db db.DB
+	db db.DBClient
 }
 
 const (
@@ -22,6 +22,6 @@ const (
 	endDateCol     = "end_date"
 )
 
-func NewPostgresRepository(db db.DB, l *zap.SugaredLogger) repository.SubscriptionRepository {
+func NewPostgresRepository(db db.DBClient, l *zap.SugaredLogger) repository.SubscriptionRepository {
 	return &postgres{db: db, l: l}
 }

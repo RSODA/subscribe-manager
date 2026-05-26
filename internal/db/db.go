@@ -21,7 +21,14 @@ func NewDB(db *pgxpool.Pool, l *zap.SugaredLogger) DBClient {
 func (d *DB) Ping(ctx context.Context) error {
 	d.l.Infow("Pinging database")
 
-	return d.db.Ping(ctx)
+	err := d.db.Ping(ctx)
+	if err != nil {
+		d.l.Errorw("Database ping failed", "error", err)
+		return err
+	}
+
+	d.l.Infow("Database ping successful")
+	return nil
 }
 
 func (d *DB) Close(ctx context.Context) {

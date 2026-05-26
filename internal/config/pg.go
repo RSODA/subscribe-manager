@@ -14,6 +14,7 @@ type pgConfig struct {
 	Username string
 	Password string
 	Database string
+	Host     string
 	Port     string
 }
 
@@ -38,14 +39,20 @@ func NewPGConfig() (PGConfig, error) {
 		return nil, errors.New("PG_PORT is required")
 	}
 
+	host := os.Getenv("PG_HOST")
+	if len(host) == 0 {
+		host = "localhost"
+	}
+
 	return &pgConfig{
 		Username: username,
 		Password: password,
 		Database: database,
+		Host:     host,
 		Port:     port,
 	}, nil
 }
 
 func (c *pgConfig) DSN() string {
-	return fmt.Sprintf("postgres://%s:%s@%s:%s/", c.Username, c.Password, c.Port, c.Database)
+	return fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=disable", c.Username, c.Password, c.Host, c.Port, c.Database)
 }

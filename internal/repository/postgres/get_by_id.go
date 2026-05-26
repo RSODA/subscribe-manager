@@ -2,9 +2,12 @@ package postgres
 
 import (
 	"context"
+	"errors"
 
 	"github.com/Masterminds/squirrel"
+	"github.com/RSODA/subscribe-manager/internal/apperrors"
 	"github.com/RSODA/subscribe-manager/internal/domain"
+	"github.com/jackc/pgx/v5"
 )
 
 func (p *postgres) GetByID(ctx context.Context, id string) (*domain.Subscription, error) {
@@ -30,6 +33,9 @@ func (p *postgres) GetByID(ctx context.Context, id string) (*domain.Subscription
 		&res.EndDate,
 	)
 	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, apperrors.ErrSubscriptionNotFound
+		}
 		p.l.Errorw("Error getting subscription by ID", "error", err)
 		return nil, err
 	}
