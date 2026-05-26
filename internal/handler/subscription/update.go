@@ -8,6 +8,17 @@ import (
 	"github.com/google/uuid"
 )
 
+// @Summary      Обновить подписку
+// @Tags         subscriptions
+// @Accept       json
+// @Produce      json
+// @Param        id            path      string                         true  "UUID подписки"
+// @Param        subscription  body      dto.UpdateSubscriptionRequest  true  "Данные для обновления"
+// @Success      200           {object}  dto.SubscriptionResponse
+// @Failure      400           {object}  dto.BadRequestErrorResponse
+// @Failure      404           {object}  dto.NotFoundErrorResponse
+// @Failure      500           {object}  dto.InternalErrorResponse
+// @Router       /subscriptions/{id} [patch]
 func (h *Handler) Update(c *gin.Context) {
 	id := c.Param("id")
 	parsedID, err := uuid.Parse(id)

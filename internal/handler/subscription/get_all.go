@@ -7,6 +7,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary      Список подписок
+// @Tags         subscriptions
+// @Produce      json
+// @Success      200  {array}   dto.SubscriptionResponse
+// @Failure      500  {object}  dto.InternalErrorResponse
+// @Router       /subscriptions [get]
 func (h *Handler) GetAll(c *gin.Context) {
 	res, err := h.service.GetAll(c.Request.Context())
 	if err != nil {

@@ -1,0 +1,402 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "REST сервис для агрегации данных об онлайн подписках",
+        "title": "Subscription Manager API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/subscriptions": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "subscriptions"
+                ],
+                "summary": "Список подписок",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.SubscriptionResponse"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.InternalErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Создает новую запись о подписке",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "subscriptions"
+                ],
+                "summary": "Создать подписку",
+                "parameters": [
+                    {
+                        "description": "Данные подписки",
+                        "name": "subscription",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateSubscriptionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SubscriptionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BadRequestErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.InternalErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/subscriptions/total": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "subscriptions"
+                ],
+                "summary": "Суммарная стоимость подписок",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "UUID пользователя",
+                        "name": "user_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Название сервиса",
+                        "name": "service_name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Начало периода MM-YYYY",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Конец периода MM-YYYY",
+                        "name": "to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TotalCostResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BadRequestErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.InternalErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/subscriptions/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "subscriptions"
+                ],
+                "summary": "Получить подписку по ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "UUID подписки",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SubscriptionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BadRequestErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.NotFoundErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.InternalErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "subscriptions"
+                ],
+                "summary": "Удалить подписку",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "UUID подписки",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BadRequestErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.NotFoundErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.InternalErrorResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "subscriptions"
+                ],
+                "summary": "Обновить подписку",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "UUID подписки",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Данные для обновления",
+                        "name": "subscription",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateSubscriptionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.SubscriptionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/dto.BadRequestErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/dto.NotFoundErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/dto.InternalErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "dto.BadRequestErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "invalid subscription data"
+                }
+            }
+        },
+        "dto.CreateSubscriptionRequest": {
+            "type": "object",
+            "properties": {
+                "end_date": {
+                    "type": "string",
+                    "example": "12-2026"
+                },
+                "price": {
+                    "type": "integer",
+                    "example": 399
+                },
+                "service_name": {
+                    "type": "string",
+                    "example": "Telegram Premium"
+                },
+                "start_date": {
+                    "type": "string",
+                    "example": "07-2026"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "0e7a1e5f-94f0-4968-838a-e0329b0d556e"
+                }
+            }
+        },
+        "dto.InternalErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "somthing internal error"
+                }
+            }
+        },
+        "dto.NotFoundErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "subscription not found"
+                }
+            }
+        },
+        "dto.SubscriptionResponse": {
+            "type": "object",
+            "properties": {
+                "end_date": {
+                    "type": "string",
+                    "example": "12-2026"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "14ef01ac-0a66-4f3f-bf59-8f75bc50b6f8"
+                },
+                "price": {
+                    "type": "integer",
+                    "example": 399
+                },
+                "service_name": {
+                    "type": "string",
+                    "example": "Telegram Premium"
+                },
+                "start_date": {
+                    "type": "string",
+                    "example": "07-2026"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "0e7a1e5f-94f0-4968-838a-e0329b0d556e"
+                }
+            }
+        },
+        "dto.TotalCostResponse": {
+            "type": "object",
+            "properties": {
+                "total_cost": {
+                    "type": "integer",
+                    "example": 698
+                }
+            }
+        },
+        "dto.UpdateSubscriptionRequest": {
+            "type": "object",
+            "properties": {
+                "end_date": {
+                    "type": "string",
+                    "example": ""
+                },
+                "price": {
+                    "type": "integer",
+                    "example": 299
+                },
+                "service_name": {
+                    "type": "string",
+                    "example": "Yandex Plus"
+                },
+                "start_date": {
+                    "type": "string",
+                    "example": "08-2026"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "0e7a1e5f-94f0-4968-838a-e0329b0d556e"
+                }
+            }
+        }
+    }
+}

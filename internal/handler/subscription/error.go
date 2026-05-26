@@ -17,10 +17,10 @@ func (h *Handler) writeError(c *gin.Context, err error) {
 	case errors.Is(err, apperrors.ErrInvalidSubscriptionData):
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	case errors.Is(err, apperrors.ErrSubscriptionNotFound):
-		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		c.JSON(http.StatusNotFound, gin.H{"message": err.Error()})
 	default:
 		h.l.Errorw("subscription handler error", "error", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "somthing internal error"})
 	}
 }
 

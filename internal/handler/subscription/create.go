@@ -7,6 +7,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary      Создать подписку
+// @Description  Создает новую запись о подписке
+// @Tags         subscriptions
+// @Accept       json
+// @Produce      json
+// @Param        subscription  body      dto.CreateSubscriptionRequest  true  "Данные подписки"
+// @Success      201           {object}  dto.SubscriptionResponse
+// @Failure      400           {object}  dto.BadRequestErrorResponse
+// @Failure      500           {object}  dto.InternalErrorResponse
+// @Router       /subscriptions [post]
 func (h *Handler) Create(c *gin.Context) {
 	var req dto.CreateSubscriptionRequest
 	if err := c.ShouldBindJSON(&req); err != nil {

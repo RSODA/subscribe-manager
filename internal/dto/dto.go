@@ -12,32 +12,44 @@ import (
 const monthYearLayout = "01-2006"
 
 type CreateSubscriptionRequest struct {
-	ServiceName string    `json:"service_name"`
-	UserID      uuid.UUID `json:"user_id"`
-	Price       int       `json:"price"`
-	StartDate   string    `json:"start_date"`
-	EndDate     *string   `json:"end_date"`
+	ServiceName string    `json:"service_name" example:"Telegram Premium"`
+	UserID      uuid.UUID `json:"user_id" example:"0e7a1e5f-94f0-4968-838a-e0329b0d556e"`
+	Price       int       `json:"price" example:"399"`
+	StartDate   string    `json:"start_date" example:"07-2026"`
+	EndDate     *string   `json:"end_date" example:"12-2026"`
 }
 
 type UpdateSubscriptionRequest struct {
-	ServiceName *string    `json:"service_name"`
-	UserID      *uuid.UUID `json:"user_id"`
-	Price       *int       `json:"price"`
-	StartDate   *string    `json:"start_date"`
-	EndDate     *string    `json:"end_date"`
+	ServiceName *string    `json:"service_name" example:"Yandex Plus"`
+	UserID      *uuid.UUID `json:"user_id" example:"0e7a1e5f-94f0-4968-838a-e0329b0d556e"`
+	Price       *int       `json:"price" example:"299"`
+	StartDate   *string    `json:"start_date" example:"08-2026"`
+	EndDate     *string    `json:"end_date" example:""`
 }
 
 type SubscriptionResponse struct {
-	ID          uuid.UUID `json:"id"`
-	UserID      uuid.UUID `json:"user_id"`
-	Price       int64     `json:"price"`
-	ServiceName string    `json:"service_name"`
-	StartDate   string    `json:"start_date"`
-	EndDate     *string   `json:"end_date"`
+	ID          uuid.UUID `json:"id" example:"14ef01ac-0a66-4f3f-bf59-8f75bc50b6f8"`
+	UserID      uuid.UUID `json:"user_id" example:"0e7a1e5f-94f0-4968-838a-e0329b0d556e"`
+	Price       int64     `json:"price" example:"399"`
+	ServiceName string    `json:"service_name" example:"Telegram Premium"`
+	StartDate   string    `json:"start_date" example:"07-2026"`
+	EndDate     *string   `json:"end_date" example:"12-2026"`
 }
 
 type TotalCostResponse struct {
-	TotalCost int `json:"total_cost"`
+	TotalCost int `json:"total_cost" example:"698"`
+}
+
+type BadRequestErrorResponse struct {
+	Error string `json:"error" example:"invalid subscription data"`
+}
+
+type NotFoundErrorResponse struct {
+	Message string `json:"message" example:"subscription not found"`
+}
+
+type InternalErrorResponse struct {
+	Message string `json:"message" example:"somthing internal error"`
 }
 
 func (r CreateSubscriptionRequest) ToDomain() (*domain.Subscription, error) {

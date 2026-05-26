@@ -1,6 +1,7 @@
 package subscription
 
 import (
+	"encoding/json"
 	"errors"
 	"net/http"
 	"net/http/httptest"
@@ -45,6 +46,11 @@ func TestWriteError(t *testing.T) {
 		c, _ := gin.CreateTestContext(w)
 		handler.writeError(c, apperrors.ErrInvalidSubscriptionData)
 		require.Equal(t, http.StatusBadRequest, w.Code)
+
+		var body map[string]string
+		err := json.Unmarshal(w.Body.Bytes(), &body)
+		require.NoError(t, err)
+		require.Equal(t, apperrors.ErrInvalidSubscriptionData.Error(), body["error"])
 	})
 
 	t.Run("not found", func(t *testing.T) {
@@ -52,6 +58,11 @@ func TestWriteError(t *testing.T) {
 		c, _ := gin.CreateTestContext(w)
 		handler.writeError(c, apperrors.ErrSubscriptionNotFound)
 		require.Equal(t, http.StatusNotFound, w.Code)
+
+		var body map[string]string
+		err := json.Unmarshal(w.Body.Bytes(), &body)
+		require.NoError(t, err)
+		require.Equal(t, apperrors.ErrSubscriptionNotFound.Error(), body["message"])
 	})
 
 	t.Run("internal", func(t *testing.T) {
@@ -59,6 +70,11 @@ func TestWriteError(t *testing.T) {
 		c, _ := gin.CreateTestContext(w)
 		handler.writeError(c, errors.New("boom"))
 		require.Equal(t, http.StatusInternalServerError, w.Code)
+
+		var body map[string]string
+		err := json.Unmarshal(w.Body.Bytes(), &body)
+		require.NoError(t, err)
+		require.Equal(t, "somthing internal error", body["message"])
 	})
 
 	t.Run("bad request helper", func(t *testing.T) {

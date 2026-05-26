@@ -10,6 +10,17 @@ import (
 	"github.com/google/uuid"
 )
 
+// @Summary      Суммарная стоимость подписок
+// @Tags         subscriptions
+// @Produce      json
+// @Param        user_id       query     string  false  "UUID пользователя"
+// @Param        service_name  query     string  false  "Название сервиса"
+// @Param        from          query     string  false  "Начало периода MM-YYYY"
+// @Param        to            query     string  false  "Конец периода MM-YYYY"
+// @Success      200           {object}  dto.TotalCostResponse
+// @Failure      400           {object}  dto.BadRequestErrorResponse
+// @Failure      500           {object}  dto.InternalErrorResponse
+// @Router       /subscriptions/total [get]
 func (h *Handler) TotalCost(c *gin.Context) {
 	userID, ok := optionalUUID(c, "user_id")
 	if !ok {
