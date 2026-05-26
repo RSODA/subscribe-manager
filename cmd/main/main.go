@@ -65,7 +65,7 @@ func main() {
 	defer dbCancel()
 
 	dbClient := db.NewDB(database, logger)
-	err = database.Ping(dbCtx)
+	err = dbClient.Ping(dbCtx)
 	if err != nil {
 		logger.Fatalw("Error pinging database", "error", err)
 	}

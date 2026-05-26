@@ -25,6 +25,6 @@ func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
 	subscriptions.GET("", h.GetAll)
 	subscriptions.GET("/total", h.TotalCost)
 	subscriptions.GET("/:id", h.GetByID)
-	subscriptions.PUT("/:id", h.Update)
+	subscriptions.PATCH("/:id", h.Update)
 	subscriptions.DELETE("/:id", h.Delete)
 }
